@@ -10,6 +10,7 @@ try {
   const oidcAudience = core.getInput("oidc-audience");
   const domain = core.getInput("domain");
   const envSlug = core.getInput("env-slug");
+  const projectId = core.getInput("project-id");
   const projectSlug = core.getInput("project-slug");
   const secretPath = core.getInput("secret-path");
   const exportType = core.getInput("export-type");
@@ -52,6 +53,7 @@ try {
     domain,
     envSlug,
     infisicalToken,
+    projectId,
     projectSlug,
     secretPath,
     shouldIncludeImports,
