@@ -1,6 +1,13 @@
+import https from "https";
 import axios from "axios";
 import core from "@actions/core";
 import querystring from "querystring";
+
+const axiosInstance = axios.create({
+  httpsAgent: new https.Agent({
+      ca: core.getInput("ca-bundle"),
+    }),
+});
 
 export const UALogin = async ({ clientId, clientSecret, domain }) => {
   const loginData = querystring.stringify({
@@ -9,7 +16,7 @@ export const UALogin = async ({ clientId, clientSecret, domain }) => {
   });
 
   try {
-    const response = await axios({
+    const response = await axiosInstance({
       method: "post",
       url: `${domain}/api/v1/auth/universal-auth/login`,
       headers: {
@@ -33,7 +40,7 @@ export const oidcLogin = async ({ identityId, domain, oidcAudience }) => {
   });
 
   try {
-    const response = await axios({
+    const response = await axiosInstance({
       method: "post",
       url: `${domain}/api/v1/auth/oidc-auth/login`,
       headers: {
@@ -60,7 +67,7 @@ export const getRawSecrets = async ({
   shouldRecurse,
 }) => {
   try {
-    const response = await axios({
+    const response = await axiosInstance({
       method: "get",
       url: `${domain}/api/v3/secrets/raw`,
       headers: {
